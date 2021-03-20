@@ -72,7 +72,7 @@ const HomePage = () => {
   const [imageNum, setImageNum] = useState(0);
   useInterval(() => {
     setImageNum((current) => (current + 1) % images.length);
-  }, 2000);
+  }, 5000);
 
   return (
     <HeroContainer bgImage={images[imageNum]}>
