@@ -3,6 +3,7 @@ import { useState, useEffect } from "react";
 import tw, { styled, css, theme } from "twin.macro";
 import { motion } from "framer-motion";
 import { useForm } from "react-hook-form";
+import useInterval from "../components/useInterval";
 
 const HomePage = () => {
   const [windowHeight, setWindowHeight] = useState(
@@ -53,8 +54,28 @@ const HomePage = () => {
     setSaving(false);
   };
 
+  const images = [
+    "Pippin.jpg",
+    "Popstars.jpg",
+    "GuysandDolls2004.jpg",
+    "Mikado.jpg",
+    "ChildrenofEden.jpg",
+    "Urinetown.jpg",
+    "Orpheus.jpg",
+    "GuysandDolls.jpg",
+    "H2Dollar.jpg",
+    "BatBoy.jpg",
+    "WSS.jpg",
+    "ASU.jpg",
+    "Hugh.jpg",
+  ];
+  const [imageNum, setImageNum] = useState(0);
+  useInterval(() => {
+    setImageNum((current) => (current + 1) % images.length);
+  }, 2000);
+
   return (
-    <HeroContainer>
+    <HeroContainer bgImage={images[imageNum]}>
       <Head>
         <title>Cecilian Archives</title>
         <meta name="viewport" content="initial-scale=1.0, width=device-width" />
@@ -130,8 +151,8 @@ const HomePage = () => {
   );
 };
 
-const HeroContainer = styled.div`
-  ${tw`w-screen
+const HeroContainer = styled.div(({ bgImage }) => [
+  tw`w-screen
   min-h-screen
   bg-center
   bg-no-repeat
@@ -142,16 +163,19 @@ const HeroContainer = styled.div`
   items-center
   p-8
   border-b-8
-  border-brightYellow`}
-  background-image: linear-gradient(
-    to top,
-    ${theme`colors.deepBlue.heroBase`},
-    ${theme`colors.deepBlue.heroTop`}
-  ),
-  url(/images/unsplash-PkbZahEG2Ng.jpg);
-  min-height: calc(var(--vh, 1vh) * 100);
-  /* See https://css-tricks.com/the-trick-to-viewport-units-on-mobile/ */
-`;
+  border-brightYellow`,
+  css`
+    background-image: linear-gradient(
+        to top,
+        ${theme`colors.deepBlue.heroBase`},
+        ${theme`colors.deepBlue.heroTop`}
+      ),
+      url(${`/images/${bgImage}`});
+    transition: background 900ms ease-in 200ms;
+    min-height: calc(var(--vh, 1vh) * 100);
+    /* See https://css-tricks.com/the-trick-to-viewport-units-on-mobile/ */
+  `,
+]);
 
 const SizedLogo = styled.img`
   ${tw`w-auto
