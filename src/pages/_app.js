@@ -1,4 +1,5 @@
-import GlobalStyles from "../components/GlobalStyles";
+import "../styles/fonts.css";
+import GlobalStyles from "../styles/GlobalStyles";
 import useVh from "../hooks/useVh";
 
 const MyApp = ({ Component, pageProps }) => {

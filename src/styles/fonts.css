@@ -1,7 +1,3 @@
-import { createGlobalStyle } from "styled-components";
-import tw, { GlobalStyles as BaseStyles } from "twin.macro";
-
-const CustomStyles = createGlobalStyle`
 /* Brawler - Regular */
 @font-face {
   font-family: "Brawler";
@@ -103,20 +99,3 @@ const CustomStyles = createGlobalStyle`
   unicode-range: U+0100-024F, U+0259, U+1E00-1EFF, U+2020, U+20A0-20AB,
     U+20AD-20CF, U+2113, U+2C60-2C7F, U+A720-A7FF;
 }
-
-body {
-  ${tw`font-body bg-grey-lighter`}
-}
-h1, h2, h3, h4, h5, h6 {
-  ${tw`font-title`}
-}
-`;
-
-const GlobalStyles = () => (
-  <>
-    <BaseStyles />
-    <CustomStyles />
-  </>
-);
-
-export default GlobalStyles;
