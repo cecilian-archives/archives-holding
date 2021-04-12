@@ -1,27 +1,14 @@
 import Head from "next/head";
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import tw, { styled, css, theme } from "twin.macro";
 import { motion } from "framer-motion";
 import { useForm } from "react-hook-form";
-import useInterval from "../components/useInterval";
+import ImageFader from "../components/ImageFader";
 
 const HomePage = () => {
-  const [windowHeight, setWindowHeight] = useState(
-    typeof window !== "undefined" ? window?.innerHeight : null
-  );
-  useEffect(() => {
-    // See https://css-tricks.com/the-trick-to-viewport-units-on-mobile/
-    const vh = windowHeight * 0.01;
-    vh && document.documentElement.style.setProperty("--vh", `${vh}px`);
-    window?.addEventListener("resize", () =>
-      setWindowHeight(window?.innerHeight)
-    );
-  }, [windowHeight]);
-
   const { register, handleSubmit, setError, clearErrors, errors } = useForm({
     mode: "onBlur",
   });
-
   const [saving, setSaving] = useState(false);
   const [success, setSuccess] = useState(false);
 
@@ -54,109 +41,98 @@ const HomePage = () => {
     setSaving(false);
   };
 
-  const images = [
-    "Pippin.jpg",
-    "Popstars.jpg",
-    "GuysandDolls2004.jpg",
-    "Mikado.jpg",
-    "ChildrenofEden.jpg",
-    "Urinetown.jpg",
-    "Orpheus.jpg",
-    "GuysandDolls.jpg",
-    "H2Dollar.jpg",
-    "BatBoy.jpg",
-    "WSS.jpg",
-    "ASU.jpg",
-    "Hugh.jpg",
-  ];
-  const [imageNum, setImageNum] = useState(0);
-  useInterval(() => {
-    setImageNum((current) => (current + 1) % images.length);
-  }, 5000);
-
   return (
-    <HeroContainer bgImage={images[imageNum]}>
-      <Head>
-        <title>Cecilian Archives</title>
-        <meta name="viewport" content="initial-scale=1.0, width=device-width" />
-      </Head>
-      <Animate
-        animate={{ y: ["7%", "0%"], opacity: [0, 1] }}
-        transition={{ duration: 0.9 }}
-      >
-        <SizedLogo src="/images/logo.svg" alt="" />
-        <Welcome>
-          <h2>Welcome to the</h2>
-          <h1>Cecilian Archives</h1>
-        </Welcome>
-      </Animate>
-      <Animate
-        animate={{ opacity: [0, 1] }}
-        transition={{ duration: 0.7, delay: 0.9 }}
-      >
-        <ButtonGroup>
-          {success ? (
-            <Thanks>
-              <ThanksText>Thank You!</ThanksText>
-              <ConfirmText>
-                We have your email address and will be in touch soon.
-              </ConfirmText>
-              <SpamText>No spam, we promise</SpamText>
-            </Thanks>
-          ) : (
-            <>
-              <HoldingText>
-                The Archives will soon be open for browsing.
-              </HoldingText>
-              <HoldingText>
-                Leave us your email to be the first to hear!
-              </HoldingText>
-              <FormGroup onSubmit={handleSubmit(onSubmit)} noValidate>
-                <Fields>
-                  <FieldLabel>Name</FieldLabel>
-                  <TextInput
-                    type="text"
-                    name="cecilianName"
-                    placeholder="Jean Valjean"
-                    ref={register({ required: false })}
-                  />
-                  <FieldLabel>Email</FieldLabel>
-                  <TextInput
-                    type="email"
-                    name="emailAddress"
-                    placeholder="prisoner24601@gmail.com"
-                    ref={register({
-                      required: true,
-                      pattern: {
-                        value: /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/,
-                      },
-                    })}
-                  />
-                  {errors.emailAddress && (
-                    <ErrorText>
-                      That doesn't look like a valid email address
-                    </ErrorText>
-                  )}
-                </Fields>
-                <SaveButton type="submit" disabled={saving}>
-                  {saving ? "Saving..." : "Sign Up"}
-                </SaveButton>
-                {errors.save && <SaveError>{errors.save.message}</SaveError>}
-              </FormGroup>
-            </>
-          )}
-        </ButtonGroup>
-      </Animate>
-    </HeroContainer>
+    <PageContainer>
+      <ImageFader switchTime={process.env.IMAGE_DISPLAY_DURATION} />
+      <HeroContainer>
+        <Head>
+          <title>Cecilian Archives</title>
+          <meta
+            name="viewport"
+            content="initial-scale=1.0, width=device-width"
+          />
+        </Head>
+        <Animate
+          animate={{ y: ["7%", "0%"], opacity: [0, 1] }}
+          transition={{ duration: 0.9 }}
+        >
+          <SizedLogo src="/images/logo.svg" alt="" />
+          <Welcome>
+            <h2>Welcome to the</h2>
+            <h1>Cecilian Archives</h1>
+          </Welcome>
+        </Animate>
+        <Animate
+          animate={{ opacity: [0, 1] }}
+          transition={{ duration: 0.7, delay: 0.9 }}
+        >
+          <ButtonGroup>
+            {success ? (
+              <Thanks>
+                <ThanksText>Thank You!</ThanksText>
+                <ConfirmText>
+                  We have your email address and will be in touch soon.
+                </ConfirmText>
+                <SpamText>No spam, we promise</SpamText>
+              </Thanks>
+            ) : (
+              <>
+                <HoldingText>
+                  The Archives will soon be open for browsing.
+                </HoldingText>
+                <HoldingText>
+                  Leave us your email to be the first to hear!
+                </HoldingText>
+                <FormGroup onSubmit={handleSubmit(onSubmit)} noValidate>
+                  <Fields>
+                    <FieldLabel>Name</FieldLabel>
+                    <TextInput
+                      type="text"
+                      name="cecilianName"
+                      placeholder="Jean Valjean"
+                      ref={register({ required: false })}
+                    />
+                    <FieldLabel>Email</FieldLabel>
+                    <TextInput
+                      type="email"
+                      name="emailAddress"
+                      placeholder="prisoner24601@gmail.com"
+                      ref={register({
+                        required: true,
+                        pattern: {
+                          value: /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/,
+                        },
+                      })}
+                    />
+                    {errors.emailAddress && (
+                      <ErrorText>
+                        That doesn't look like a valid email address
+                      </ErrorText>
+                    )}
+                  </Fields>
+                  <SaveButton type="submit" disabled={saving}>
+                    {saving ? "Saving..." : "Sign Up"}
+                  </SaveButton>
+                  {errors.save && <SaveError>{errors.save.message}</SaveError>}
+                </FormGroup>
+              </>
+            )}
+          </ButtonGroup>
+        </Animate>
+      </HeroContainer>
+    </PageContainer>
   );
 };
 
-const HeroContainer = styled.div(({ bgImage }) => [
-  tw`w-screen
+const PageContainer = tw.div`
+  relative
+  w-screen
   min-h-screen
-  bg-center
-  bg-no-repeat
-  bg-cover
+`;
+
+const HeroContainer = styled.div(() => [
+  tw`absolute
+  inset-0
   flex
   flex-col
   justify-center
@@ -166,12 +142,10 @@ const HeroContainer = styled.div(({ bgImage }) => [
   border-brightYellow`,
   css`
     background-image: linear-gradient(
-        to top,
-        ${theme`colors.deepBlue.heroBase`},
-        ${theme`colors.deepBlue.heroTop`}
-      ),
-      url(${`/images/${bgImage}`});
-    transition: background 900ms ease-in 200ms;
+      to top,
+      ${theme`colors.deepBlue.heroBase`},
+      ${theme`colors.deepBlue.heroTop`}
+    );
     min-height: calc(var(--vh, 1vh) * 100);
     /* See https://css-tricks.com/the-trick-to-viewport-units-on-mobile/ */
   `,
