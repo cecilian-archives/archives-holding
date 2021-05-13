@@ -3,6 +3,7 @@ import { useState } from "react";
 import tw, { styled, css, theme } from "twin.macro";
 import { motion } from "framer-motion";
 import { useForm } from "react-hook-form";
+import useConfetti from "../hooks/useConfetti";
 import ImageFader from "../components/ImageFader";
 
 const HomePage = () => {
@@ -11,6 +12,7 @@ const HomePage = () => {
   });
   const [saving, setSaving] = useState(false);
   const [success, setSuccess] = useState(false);
+  const fireConfetti = useConfetti();
 
   const onSubmit = async (data) => {
     clearErrors();
@@ -56,7 +58,7 @@ const HomePage = () => {
           animate={{ y: ["7%", "0%"], opacity: [0, 1] }}
           transition={{ duration: 0.9 }}
         >
-          <SizedLogo src="/images/logo.svg" alt="" />
+          <SizedLogo src="/images/logo.svg" alt="" onClick={fireConfetti} />
           <Welcome>
             <h2>Welcome to the</h2>
             <h1>Cecilian Archives</h1>
