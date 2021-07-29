@@ -62,7 +62,8 @@ const BackgroundLayer = styled.div(({ bgImage }) => [
     background-image: url(${`/images/${bgImage}`});
     opacity: var(--opacity, 0);
     transition: opacity 1s linear;
-    min-height: calc(var(--vh, 1vh) * 100);
+    height: calc(var(--vh, 1vh) * 100);
+    min-height: 800px;
     /* See https://css-tricks.com/the-trick-to-viewport-units-on-mobile/ */
   `,
 ]);

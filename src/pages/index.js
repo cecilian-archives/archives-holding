@@ -102,7 +102,8 @@ const HomePage = () => {
                       ref={register({
                         required: true,
                         pattern: {
-                          value: /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/,
+                          value:
+                            /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/,
                         },
                       })}
                     />
@@ -148,7 +149,8 @@ const HeroContainer = styled.div(() => [
       ${theme`colors.deepBlue.heroBase`},
       ${theme`colors.deepBlue.heroTop`}
     );
-    min-height: calc(var(--vh, 1vh) * 100);
+    height: calc(var(--vh, 1vh) * 100);
+    min-height: 800px;
     /* See https://css-tricks.com/the-trick-to-viewport-units-on-mobile/ */
   `,
 ]);
